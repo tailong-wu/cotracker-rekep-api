@@ -11,3 +11,4 @@ pip install -r requiremnets.txt
 首先在终端运行main.py部署api。
 使用video_frame_extractor.py对测试视频进行抽帧。
 之后新建一个终端运行test_client.py进行客户端的测试。
+

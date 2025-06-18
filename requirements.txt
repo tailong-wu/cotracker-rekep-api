@@ -8,3 +8,4 @@ torchvision
 # pip install git+https://github.com/facebookresearch/co-tracker.git
 imageio[ffmpeg]
 requests
+matplotlib

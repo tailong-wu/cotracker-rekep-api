@@ -67,9 +67,12 @@ class CoPointTracker:
             torch.tensor(
                 np.stack(self.window_frames), device=self.device
             )
-            .float()
+            .float()  # 确保张量为float类型
             .permute(0, 3, 1, 2)[None]
         )  # (1, T, 3, H, W)
+
+        if self.queries is not None:
+            self.queries = self.queries.float()  # 确保queries为float类型
 
         kwargs = {
             "video_chunk": video_chunk,
