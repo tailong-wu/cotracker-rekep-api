@@ -1,0 +1,4 @@
+[submodule "co-trakcer"]
+    path = co-trakcer/
+    url = https://github.com/facebookresearch/co-tracker.git
+    branch = main

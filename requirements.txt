@@ -1,0 +1,10 @@
+Flask
+numpy
+opencv-python
+Pillow
+torch
+torchvision
+# 根据CoTracker的官方仓库，可能需要从git直接安装
+# pip install git+https://github.com/facebookresearch/co-tracker.git
+imageio[ffmpeg]
+requests
