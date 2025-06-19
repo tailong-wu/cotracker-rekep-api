@@ -63,10 +63,9 @@ def main():
         if resp.status_code == 200:
                 # 假设响应中包含跟踪到的关键点
                 keypoints = np.array(resp.json().get('keypoints', []))
-                if i + 2 < 17:
+                if len(keypoints) == 0:
                     print(f'Frame {i+2} 未正确跟踪，未返回 keypoints。')
-                    if len(keypoints) == 0:
-                        continue
+                    continue
                 # 在图像上绘制关键点
                 img_with_keypoints = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
                 for point in keypoints:

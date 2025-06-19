@@ -2,6 +2,8 @@ import torch
 import numpy as np
 from cotracker.predictor import CoTrackerOnlinePredictor
 
+_COTRACKER3_SCALED_ONLINE_URL = "https://huggingface.co/facebook/cotracker3/resolve/main/scaled_online.pth"
+
 class CoPointTracker:
     def __init__(self, device=None, window_size=None):
         """
@@ -16,13 +18,23 @@ class CoPointTracker:
             self.device = torch.device(device)
         print(f"CoTracker is running on: {self.device}")
 
-        # 加载模型（官方推荐 hub 方式）
-        self.model = torch.hub.load("facebookresearch/co-tracker", "cotracker3_online")
+        # if window_size is not provided, use model's default
+        model_window_size = window_size if window_size is not None else 16 # cotracker3_online default
+
+        # 加载模型
+        self.model = CoTrackerOnlinePredictor(checkpoint=None, window_len=model_window_size)
+        state_dict = torch.hub.load_state_dict_from_url(
+            _COTRACKER3_SCALED_ONLINE_URL, map_location="cpu"
+        )
+        # del time_emb which is relevant to window_size
+        del state_dict["time_emb"]
+        self.model.model.load_state_dict(state_dict, strict=False)
         self.model = self.model.to(self.device)
+
         self.window_frames = []
         self.is_first_step = True
         self.window_size = window_size  # 用户可自定义窗口长度
-        self.step = self.model.step if hasattr(self.model, "step") else 8  # 默认step
+        self.step = self.model.step
 
         # 跟踪点缓存，仅第一步用
         self.queries = None

@@ -7,7 +7,7 @@ import io
 
 app = Flask(__name__)
 # 初始化跟踪器
-tracker = CoPointTracker()
+tracker = CoPointTracker(window_size=5)
 
 @app.route('/register', methods=['POST'])
 def register():
